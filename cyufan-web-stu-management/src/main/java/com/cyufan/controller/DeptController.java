@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * 部门管理控制器
  */
+@RequestMapping("depts")
 @RestController
 public class DeptController {
     @Autowired
@@ -19,7 +20,7 @@ public class DeptController {
     /**
      * 查询部门列表
      */
-    @RequestMapping("/depts")
+    @RequestMapping
     public Result list() {
         List<Dept> deptList = deptService.findAll();
         return Result.success(deptList);
@@ -28,7 +29,7 @@ public class DeptController {
     /**
      * 根据ID删除部门 - 简单参数接收: 方式一 (HttpServletRequest)
      */
-    @DeleteMapping("/depts")
+    @DeleteMapping
     public Result delete(@RequestParam("id") Integer id) {
         System.out.println("删除的id:" + id);
         deptService.deleteById(id);
@@ -38,7 +39,7 @@ public class DeptController {
     /**
      * 新增部门 - POST http://localhost:8080/depts   请求参数：{"name":"研发部"}
      */
-    @PostMapping("/depts")
+    @PostMapping
     public Result save(@RequestBody Dept dept) {
         System.out.println("新增的部门：" + dept);
         deptService.save(dept);
@@ -48,10 +49,20 @@ public class DeptController {
     /**
      * 根据ID查询 - GET http://localhost:8080/depts/1
      */
-    @GetMapping("/depts/{id}")
+    @GetMapping("/{id}")
     public Result getById(@PathVariable Integer id) {
         System.out.println("查询的id:" + id);
         Dept dept = deptService.getById(id);
         return Result.success(dept);
+    }
+
+    /**
+     * 根据ID更新部门 - PUT http://localhost:8080/depts   请求参数：{"id":1,"name":"测试部"}
+     */
+    @PutMapping
+    public Result update(@RequestBody Dept dept) {
+        System.out.println("更新的部门：" + dept);
+        deptService.update(dept);
+        return Result.success();
     }
 }
