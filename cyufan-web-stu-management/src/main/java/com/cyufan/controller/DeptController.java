@@ -4,10 +4,7 @@ import com.cyufan.pojo.Dept;
 import com.cyufan.pojo.Result;
 import com.cyufan.services.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +32,16 @@ public class DeptController {
     public Result delete(@RequestParam("id") Integer id) {
         System.out.println("删除的id:" + id);
         deptService.deleteById(id);
+        return Result.success();
+    }
+
+    /**
+     * 新增部门 - POST http://localhost:8080/depts   请求参数：{"name":"研发部"}
+     */
+    @PostMapping("/depts")
+    public Result save(@RequestBody Dept dept) {
+        System.out.println("新增的部门：" + dept);
+        deptService.save(dept);
         return Result.success();
     }
 }
