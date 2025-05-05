@@ -1,5 +1,6 @@
 package com.cyufan.services;
 
+import com.cyufan.pojo.Emp;
 import com.cyufan.pojo.EmpQueryParam;
 import com.cyufan.pojo.PageResult;
 
@@ -17,4 +18,10 @@ public interface EmpService {
      */
 //    PageResult page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end);
     PageResult page(EmpQueryParam empQueryParam);
+
+    /**
+     * 添加员工
+     * @param emp
+     */
+    void save(Emp emp);
 }

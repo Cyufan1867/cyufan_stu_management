@@ -1,7 +1,9 @@
 package com.cyufan.services.impl;
 
+import com.cyufan.mapper.EmpExprMapper;
 import com.cyufan.mapper.EmpMapper;
 import com.cyufan.pojo.Emp;
+import com.cyufan.pojo.EmpExpr;
 import com.cyufan.pojo.EmpQueryParam;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.services.EmpService;
@@ -9,6 +11,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +25,8 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private EmpMapper empMapper;
+    @Autowired
+    private EmpExprMapper empExprMapper;
 
     @Override
     public PageResult page(EmpQueryParam empQueryParam) {
@@ -32,5 +37,18 @@ public class EmpServiceImpl implements EmpService {
         //3. 封装分页结果
         Page<Emp> p = (Page<Emp>) empList;
         return new PageResult(p.getTotal(), p.getResult());
+    }
+
+    @Override
+    public void save(Emp emp){
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+        Integer empId = emp.getId();
+        List<EmpExpr> exprList = emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(empExpr -> empExpr.setEmpId(empId));
+            empExprMapper.insertBatch(exprList);
+        }
     }
 }
