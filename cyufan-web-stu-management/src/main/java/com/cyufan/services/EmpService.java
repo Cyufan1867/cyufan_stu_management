@@ -1,7 +1,9 @@
 package com.cyufan.services;
 
+import com.cyufan.pojo.EmpQueryParam;
 import com.cyufan.pojo.PageResult;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -10,5 +12,9 @@ import java.time.LocalDateTime;
  * @param pageSize 每页记录数
  */
 public interface EmpService {
-    PageResult page(Integer page, Integer pageSize);
+    /**
+     * 分页查询
+     */
+//    PageResult page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end);
+    PageResult page(EmpQueryParam empQueryParam);
 }

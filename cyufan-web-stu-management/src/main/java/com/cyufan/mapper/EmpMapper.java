@@ -1,9 +1,11 @@
 package com.cyufan.mapper;
 
 import com.cyufan.pojo.Emp;
+import com.cyufan.pojo.EmpQueryParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +20,5 @@ public interface EmpMapper {
 //    @Select("select e.*, d.name deptName from emp as e left join dept as d on e.dept_id = d.id limit #{start}, #{pageSize}")
 //    public List<Emp> list(Integer start, Integer pageSize);
 
-    @Select("select e.*,d.name deptName from emp as e left join dept as d on e.dept_id = d.id")
-    public List<Emp> list();
+    public List<Emp> list(EmpQueryParam empQueryParam);
 }

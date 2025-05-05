@@ -1,5 +1,6 @@
 package com.cyufan.controller;
 
+import com.cyufan.pojo.EmpQueryParam;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.pojo.Result;
 import com.cyufan.services.EmpService;
@@ -22,10 +23,9 @@ public class EmpController {
     private EmpService empService;
 
     @GetMapping
-    public Result page(@RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer pageSize){
-        log.info("查询员工信息, page={}, pageSize={}", page, pageSize);
-        PageResult pageResult = empService.page(page, pageSize);
+    public Result page(EmpQueryParam empQueryParam) {
+        log.info("查询请求参数： {}",empQueryParam);
+        PageResult pageResult = empService.page(empQueryParam);
         return Result.success(pageResult);
     }
 }
