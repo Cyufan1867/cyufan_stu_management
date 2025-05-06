@@ -2,15 +2,13 @@ package com.cyufan.services.impl;
 
 import com.cyufan.mapper.EmpExprMapper;
 import com.cyufan.mapper.EmpMapper;
-import com.cyufan.pojo.Emp;
-import com.cyufan.pojo.EmpExpr;
-import com.cyufan.pojo.EmpQueryParam;
-import com.cyufan.pojo.PageResult;
+import com.cyufan.pojo.*;
 import com.cyufan.services.EmpService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
@@ -27,6 +25,8 @@ public class EmpServiceImpl implements EmpService {
     private EmpMapper empMapper;
     @Autowired
     private EmpExprMapper empExprMapper;
+    @Autowired
+    private EmpLogServiceImpl empLogService;
 
     @Override
     public PageResult page(EmpQueryParam empQueryParam) {
@@ -39,16 +39,23 @@ public class EmpServiceImpl implements EmpService {
         return new PageResult(p.getTotal(), p.getResult());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void save(Emp emp){
-        emp.setCreateTime(LocalDateTime.now());
-        emp.setUpdateTime(LocalDateTime.now());
-        empMapper.insert(emp);
-        Integer empId = emp.getId();
-        List<EmpExpr> exprList = emp.getExprList();
-        if(!CollectionUtils.isEmpty(exprList)){
-            exprList.forEach(empExpr -> empExpr.setEmpId(empId));
-            empExprMapper.insertBatch(exprList);
+    public void save(Emp emp) {
+        try {
+            emp.setCreateTime(LocalDateTime.now());
+            emp.setUpdateTime(LocalDateTime.now());
+            empMapper.insert(emp);
+            Integer empId = emp.getId();
+            List<EmpExpr> exprList = emp.getExprList();
+            if (!CollectionUtils.isEmpty(exprList)) {
+                exprList.forEach(empExpr -> empExpr.setEmpId(empId));
+                empExprMapper.insertBatch(exprList);
+            }
+        } finally {
+            //记录操作日志
+            EmpLog empLog = new EmpLog(null, LocalDateTime.now(), emp.toString());
+            empLogService.insertLog(empLog);
         }
     }
 }
