@@ -6,6 +6,7 @@ import com.cyufan.pojo.PageResult;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 分页查询
@@ -24,4 +25,9 @@ public interface EmpService {
      * @param emp
      */
     void save(Emp emp);
+    /**
+     * 删除员工
+     * @param ids
+     */
+    void deleteByIds(List<Integer> ids);
 }
