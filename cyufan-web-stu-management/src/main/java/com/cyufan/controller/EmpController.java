@@ -44,4 +44,14 @@ public class EmpController {
         empService.deleteByIds(Arrays.asList(ids));
         return Result.success();
     }
+
+    /**
+     * 查询回显
+     */
+    @GetMapping("/{id}")
+    public Result getInfo(@PathVariable Integer id) {
+        log.info("查询回显，id：{}", id);
+        Emp emp = empService.getInfo(id);
+        return Result.success(emp);
+    }
 }
