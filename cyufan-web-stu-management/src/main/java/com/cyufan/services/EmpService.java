@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * 分页查询
- * @param page 页码
+ *
+ * @param page     页码
  * @param pageSize 每页记录数
  */
 public interface EmpService {
@@ -22,16 +23,27 @@ public interface EmpService {
 
     /**
      * 添加员工
+     *
      * @param emp
      */
     void save(Emp emp);
+
     /**
      * 删除员工
+     *
      * @param ids
      */
     void deleteByIds(List<Integer> ids);
+
     /**
      * 根据ID查询员工的详细信息
      */
     Emp getInfo(Integer id);
+
+    /**
+     * 更新员工信息
+     *
+     * @param emp
+     */
+    void update(Emp emp);
 }
