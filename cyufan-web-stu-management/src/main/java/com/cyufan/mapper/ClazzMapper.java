@@ -27,4 +27,9 @@ public interface ClazzMapper {
      */
     @Select("select * from clazz where id = #{id}")
     Clazz getInfo(Integer id);
+
+    /**
+     * 动态更新班级信息
+     */
+    void update(Clazz clazz);
 }

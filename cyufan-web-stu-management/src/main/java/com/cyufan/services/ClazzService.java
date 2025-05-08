@@ -32,4 +32,10 @@ public interface ClazzService {
      * @return
      */
     Clazz getInfo(Integer id);
+
+    /**
+     * 修改班级信息
+     * @param clazz
+     */
+    void update(Clazz clazz);
 }
