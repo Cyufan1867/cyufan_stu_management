@@ -3,6 +3,9 @@ package com.cyufan.services;
 import com.cyufan.pojo.JobOption;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ReportService {
 
     /**
@@ -10,4 +13,9 @@ public interface ReportService {
      * @return
      */
     JobOption getEmpJobData();
+
+    /**
+     * 统计员工性别信息
+     */
+    List<Map> getEmpGenderData();
 }
