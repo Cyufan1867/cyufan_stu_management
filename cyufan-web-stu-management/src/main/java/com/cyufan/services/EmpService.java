@@ -3,6 +3,7 @@ package com.cyufan.services;
 import com.cyufan.pojo.Emp;
 import com.cyufan.pojo.EmpQueryParam;
 import com.cyufan.pojo.PageResult;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
