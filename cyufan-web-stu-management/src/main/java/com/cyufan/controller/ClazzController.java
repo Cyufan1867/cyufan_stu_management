@@ -36,7 +36,8 @@ public class ClazzController {
      * 新增班级
      */
     @PostMapping
-    public Result save(){
+    public Result save(@RequestBody Clazz clazz){
+        clazzService.save(clazz);
         return Result.success();
     }
 }

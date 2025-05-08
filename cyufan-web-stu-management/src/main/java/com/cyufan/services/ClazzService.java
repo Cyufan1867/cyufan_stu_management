@@ -19,4 +19,10 @@ public interface ClazzService {
      * @return
      */
     PageResult page(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize);
+
+    /**
+     * 添加班级信息
+     * @param clazz
+     */
+    void save(Clazz clazz);
 }
