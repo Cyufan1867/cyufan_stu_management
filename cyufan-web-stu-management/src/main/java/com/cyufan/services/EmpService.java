@@ -47,4 +47,9 @@ public interface EmpService {
      * @param emp
      */
     void update(Emp emp);
+
+    /**
+     * 查询所有班主任
+     */
+    List<Emp> listAll();
 }

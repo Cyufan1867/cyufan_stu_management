@@ -90,4 +90,12 @@ public class EmpServiceImpl implements EmpService {
             empExprMapper.insertBatch(exprList);
         }
     }
+
+    /**
+     * 查询所有班主任
+     */
+    @Override
+    public List<Emp> listAll(){
+        return empMapper.listAll();
+    }
 }
