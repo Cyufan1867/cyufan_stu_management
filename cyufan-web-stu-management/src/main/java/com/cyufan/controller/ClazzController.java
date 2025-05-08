@@ -36,8 +36,17 @@ public class ClazzController {
      * 新增班级
      */
     @PostMapping
-    public Result save(@RequestBody Clazz clazz){
+    public Result save(@RequestBody Clazz clazz) {
         clazzService.save(clazz);
         return Result.success();
+    }
+
+    /**
+     * 根据ID查询班级详情
+     */
+    @GetMapping("/{id}")
+    public Result getInfo(@PathVariable Integer id) {
+        Clazz clazz = clazzService.getInfo(id);
+        return Result.success(clazz);
     }
 }

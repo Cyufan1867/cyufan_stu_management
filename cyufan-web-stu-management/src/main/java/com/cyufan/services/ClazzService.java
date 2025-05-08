@@ -25,4 +25,11 @@ public interface ClazzService {
      * @param clazz
      */
     void save(Clazz clazz);
+
+    /**
+     * 根据ID查询班级详情
+     * @param id
+     * @return
+     */
+    Clazz getInfo(Integer id);
 }
