@@ -4,6 +4,7 @@ import com.cyufan.pojo.Student;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -40,4 +41,10 @@ public interface StudentMapper {
      * 批量删除学生信息
      */
     void delete(List<Integer> ids);
+
+    /**
+     * 违纪处理
+     */
+    @Update("update student set violation_count = violation_count + 1,violation_score = violation_score + #{score},update_time = now() where id = #{id}")
+    void updateViolation(Integer id, Integer score);
 }

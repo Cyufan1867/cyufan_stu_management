@@ -53,7 +53,7 @@ public class StudentController {
      * 修改学生信息
      */
     @PutMapping
-    public Result update(@RequestBody Student student){
+    public Result update(@RequestBody Student student) {
         studentService.update(student);
         return Result.success();
     }
@@ -62,8 +62,17 @@ public class StudentController {
      * 删除学生信息
      */
     @DeleteMapping("/{ids}")
-    public Result delete(@PathVariable List<Integer> ids){
+    public Result delete(@PathVariable List<Integer> ids) {
         studentService.delete(ids);
+        return Result.success();
+    }
+
+    /**
+     * 违纪处理
+     */
+    @PutMapping("/violation/{id}/{score}")
+    public Result violationHandle(@PathVariable Integer id, @PathVariable Integer score) {
+        studentService.violationHandle(id, score);
         return Result.success();
     }
 }
