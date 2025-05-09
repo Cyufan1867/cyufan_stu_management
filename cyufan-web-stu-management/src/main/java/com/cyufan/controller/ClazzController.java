@@ -67,5 +67,13 @@ public class ClazzController {
         clazzService.deleteById(id);
         return Result.success();
     }
+    /**
+     * 查询全部班级
+     */
+    @GetMapping("/list")
+    public Result findAll(){
+        List<Clazz> clazzList = clazzService.findAll();
+        return Result.success(clazzList);
+    }
 
 }

@@ -48,4 +48,10 @@ public interface ClazzService {
      * @param id
      */
     void deleteById(Integer id);
+
+    /**
+     * 查询全部班级
+     * @return
+     */
+    List<Clazz> findAll();
 }
