@@ -30,4 +30,9 @@ public interface StudentMapper {
      */
     @Select("select * from student where id = #{id}")
     Student getById(Integer id);
+
+    /**
+     * 修改学生信息
+     */
+    void update(Student student);
 }
