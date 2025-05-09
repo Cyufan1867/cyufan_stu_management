@@ -2,13 +2,11 @@ package com.cyufan.controller;
 
 import com.cyufan.pojo.PageResult;
 import com.cyufan.pojo.Result;
+import com.cyufan.pojo.Student;
 import com.cyufan.services.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -29,5 +27,14 @@ public class StudentController {
                        @RequestParam(defaultValue = "10") Integer pageSize){
         PageResult pageResult = studentService.page(name, degree, clazzId, page, pageSize);
         return Result.success(pageResult);
+    }
+
+    /**
+     * 添加学生
+     */
+    @PostMapping
+    public Result save(@RequestBody Student student){
+        studentService.save(student);
+        return Result.success();
     }
 }

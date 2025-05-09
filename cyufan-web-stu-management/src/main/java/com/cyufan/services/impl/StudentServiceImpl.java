@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -27,5 +28,12 @@ public class StudentServiceImpl implements StudentService {
         Page<Student> p = (Page<Student>) studentList;
 
         return new PageResult(p.getTotal(), p.getResult());
+    }
+
+    @Override
+    public void save(Student student){
+        student.setCreateTime(LocalDateTime.now());
+        student.setUpdateTime(LocalDateTime.now());
+        studentMapper.insert(student);
     }
 }
