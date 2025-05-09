@@ -1,6 +1,7 @@
 package com.cyufan.mapper;
 
 import com.cyufan.pojo.Clazz;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -32,4 +33,10 @@ public interface ClazzMapper {
      * 动态更新班级信息
      */
     void update(Clazz clazz);
+
+    /**
+     * 根据ID删除班级
+     */
+    @Delete("delete from clazz where id = #{id}")
+    void deleteById(Integer id);
 }

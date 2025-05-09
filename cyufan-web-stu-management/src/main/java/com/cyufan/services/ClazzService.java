@@ -22,12 +22,14 @@ public interface ClazzService {
 
     /**
      * 添加班级信息
+     *
      * @param clazz
      */
     void save(Clazz clazz);
 
     /**
      * 根据ID查询班级详情
+     *
      * @param id
      * @return
      */
@@ -35,7 +37,15 @@ public interface ClazzService {
 
     /**
      * 修改班级信息
+     *
      * @param clazz
      */
     void update(Clazz clazz);
+
+    /**
+     * 删除班级
+     *
+     * @param id
+     */
+    void deleteById(Integer id);
 }

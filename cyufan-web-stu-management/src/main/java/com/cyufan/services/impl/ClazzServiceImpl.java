@@ -1,6 +1,8 @@
 package com.cyufan.services.impl;
 
+import com.cyufan.exception.BusinessException;
 import com.cyufan.mapper.ClazzMapper;
+import com.cyufan.mapper.StudentMapper;
 import com.cyufan.pojo.Clazz;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.services.ClazzService;
@@ -18,6 +20,8 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Autowired
     private ClazzMapper clazzMapper;
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Override
     public PageResult page(String name, LocalDate begin, LocalDate end, Integer page, Integer pageSize) {
@@ -43,5 +47,14 @@ public class ClazzServiceImpl implements ClazzService {
     public void update(Clazz clazz){
         clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.update(clazz);
+    }
+
+    @Override
+    public void deleteById(Integer id){
+        Integer count = studentMapper.countByClazzId(id);
+        if(count > 0){
+            throw new BusinessException("该班级有学生，不能删除");
+        }
+        clazzMapper.deleteById(id);
     }
 }
