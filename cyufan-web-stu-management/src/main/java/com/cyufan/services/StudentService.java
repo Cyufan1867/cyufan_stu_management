@@ -14,4 +14,9 @@ public interface StudentService {
      * 添加学生信息
      */
     void save(Student student);
+
+    /**
+     * 根据ID查询学生信息
+     */
+    Student getInfo(Integer id);
 }

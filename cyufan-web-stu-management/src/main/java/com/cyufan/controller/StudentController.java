@@ -24,7 +24,7 @@ public class StudentController {
                        Integer degree,
                        Integer clazzId,
                        @RequestParam(defaultValue = "1") Integer page,
-                       @RequestParam(defaultValue = "10") Integer pageSize){
+                       @RequestParam(defaultValue = "10") Integer pageSize) {
         PageResult pageResult = studentService.page(name, degree, clazzId, page, pageSize);
         return Result.success(pageResult);
     }
@@ -33,8 +33,17 @@ public class StudentController {
      * 添加学生
      */
     @PostMapping
-    public Result save(@RequestBody Student student){
+    public Result save(@RequestBody Student student) {
         studentService.save(student);
         return Result.success();
+    }
+
+    /**
+     * 根据ID查询学生信息
+     */
+    @GetMapping("/{id}")
+    public Result getInfo(@PathVariable Integer id) {
+        Student student = studentService.getInfo(id);
+        return Result.success(student);
     }
 }
