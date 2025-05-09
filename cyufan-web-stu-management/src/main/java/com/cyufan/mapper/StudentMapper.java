@@ -35,4 +35,9 @@ public interface StudentMapper {
      * 修改学生信息
      */
     void update(Student student);
+
+    /**
+     * 批量删除学生信息
+     */
+    void delete(List<Integer> ids);
 }

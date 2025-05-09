@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void save(Student student){
+    public void save(Student student) {
         student.setCreateTime(LocalDateTime.now());
         student.setUpdateTime(LocalDateTime.now());
         studentMapper.insert(student);
@@ -43,8 +43,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void update(Student student){
+    public void update(Student student) {
         student.setUpdateTime(LocalDateTime.now());
         studentMapper.update(student);
+    }
+
+    @Override
+    public void delete(List<Integer> ids) {
+        studentMapper.delete(ids);
     }
 }

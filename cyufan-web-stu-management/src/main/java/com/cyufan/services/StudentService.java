@@ -3,6 +3,8 @@ package com.cyufan.services;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.pojo.Student;
 
+import java.util.List;
+
 public interface StudentService {
 
     /**
@@ -24,4 +26,9 @@ public interface StudentService {
      * 修改学生信息
      */
     void update(Student student);
+
+    /**
+     * 删除学生信息
+     */
+    void delete(List<Integer> ids);
 }
