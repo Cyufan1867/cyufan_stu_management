@@ -1,6 +1,7 @@
 package com.cyufan.services.impl;
 
 import com.cyufan.mapper.StudentMapper;
+import com.cyufan.pojo.ClazzCountOption;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.pojo.Student;
 import com.cyufan.services.StudentService;
@@ -9,9 +10,11 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -56,5 +59,27 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void violationHandle(Integer id, Integer score){
         studentMapper.updateViolation(id, score);
+    }
+
+    @Override
+    public List<Map> getStudentDegreeData() {
+        return studentMapper.countStudentDegreeData();
+    }
+
+    @Override
+    public ClazzCountOption getStudentCountData() {
+        List<Map<String, Object>> countList = studentMapper.getStudentCount();
+        if(!CollectionUtils.isEmpty(countList)){
+            List<Object> clazzList = countList.stream().map(map -> {
+                return map.get("cname");
+            }).toList();
+
+            List<Object> dataList = countList.stream().map(map -> {
+                return map.get("scount");
+            }).toList();
+
+            return new ClazzCountOption(clazzList, dataList);
+        }
+        return null;
     }
 }

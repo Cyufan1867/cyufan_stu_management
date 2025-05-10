@@ -1,9 +1,11 @@
 package com.cyufan.services;
 
+import com.cyufan.pojo.ClazzCountOption;
 import com.cyufan.pojo.PageResult;
 import com.cyufan.pojo.Student;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentService {
 
@@ -36,4 +38,14 @@ public interface StudentService {
      * 违纪处理
      */
     void violationHandle(Integer id, Integer score);
+
+    /**
+     * 统计学历人数
+     */
+    List<Map> getStudentDegreeData();
+
+    /**
+     * 统计班级人数
+     */
+    ClazzCountOption getStudentCountData();
 }
