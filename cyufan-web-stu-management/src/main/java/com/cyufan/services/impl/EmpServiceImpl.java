@@ -95,7 +95,17 @@ public class EmpServiceImpl implements EmpService {
      * 查询所有班主任
      */
     @Override
-    public List<Emp> listAll(){
+    public List<Emp> listAll() {
         return empMapper.listAll();
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        Emp empLogin = empMapper.getUsernameAndPassword(emp);
+        if(empLogin != null){
+            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), null);
+            return loginInfo;
+        }
+        return null;
     }
 }
