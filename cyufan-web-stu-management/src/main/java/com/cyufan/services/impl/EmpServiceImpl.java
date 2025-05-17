@@ -4,6 +4,7 @@ import com.cyufan.mapper.EmpExprMapper;
 import com.cyufan.mapper.EmpMapper;
 import com.cyufan.pojo.*;
 import com.cyufan.services.EmpService;
+import com.cyufan.utils.JwtUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 员工管理
@@ -103,6 +106,11 @@ public class EmpServiceImpl implements EmpService {
     public LoginInfo login(Emp emp) {
         Emp empLogin = empMapper.getUsernameAndPassword(emp);
         if(empLogin != null){
+            Map<String,Object> dataMap = new HashMap<>();
+            dataMap.put("id",empLogin.getId());
+            dataMap.put("username",empLogin.getUsername());
+
+            String jwt = JwtUtils.generateJwt(dataMap);
             LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), null);
             return loginInfo;
         }
