@@ -17,7 +17,7 @@ const router = createRouter({
         {
             path: '/',
             name: '',
-            // component: LayoutView,
+            component: LayoutView,
             redirect: '/index', //重定向
             children: [
                 {path: 'index', name: 'index', component: IndexView},

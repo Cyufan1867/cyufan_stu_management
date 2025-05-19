@@ -59,10 +59,10 @@
               <template #title>
                 <el-icon><Histogram /></el-icon>数据统计管理
               </template>
-              <el-menu-item index="/report/emp">
+              <el-menu-item index="/empReport">
                 <el-icon><InfoFilled /></el-icon>员工信息统计
               </el-menu-item>
-              <el-menu-item index="/report/stu">
+              <el-menu-item index="/stuReport">
                 <el-icon><Share /></el-icon>学员信息统计
               </el-menu-item>
               <el-menu-item index="/log">
