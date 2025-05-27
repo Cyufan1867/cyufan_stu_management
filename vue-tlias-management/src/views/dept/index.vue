@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted} from 'vue'
-import {ElMessage} from 'element-plus'
-import {queryAllApi, addDeptApi, queryInfoApi, updateDeptApi} from '@/api/dept'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {queryAllApi, addDeptApi, queryInfoApi, updateDeptApi, deleteDeptApi} from '@/api/dept'
 
 // 声明列表展示数据
 let deptList = ref([])
@@ -35,6 +35,18 @@ const handleEdit = async (id) => {
 const handleDelete = (id) => {
   console.log(`Delete item with ID ${id}`);
   // 在这里实现删除功能
+  //删除部门时, 需要弹出一个确认框, 如果是确认, 则删除部门
+  ElMessageBox.confirm('此操作将永久删除该部门, 是否继续?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    const result = await deleteDeptApi(id)
+    if (result.code) {
+      ElMessage.success('删除成功')
+      queryAll()
+    }
+  })
 };
 
 
@@ -92,6 +104,7 @@ const save = async () => {
     }
   })
 }
+
 </script>
 
 <template>
