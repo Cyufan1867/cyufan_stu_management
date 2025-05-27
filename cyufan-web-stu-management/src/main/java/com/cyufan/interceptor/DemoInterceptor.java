@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Component
+//@Component
 public class DemoInterceptor implements HandlerInterceptor {
 
     //目标资源方法执行前执行。 返回true：放行    返回false：不放行
