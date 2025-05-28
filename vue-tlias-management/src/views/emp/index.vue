@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch, onMounted} from "vue";
 import {ElMessage} from "element-plus";
-import {queryPageApi} from '@/api/emp'
+import {addApi, queryPageApi} from '@/api/emp'
 import {Plus} from "@element-plus/icons-vue";
 import {queryAllApi as queryAllDeptApi} from '@/api/dept'
 
@@ -108,7 +108,43 @@ const handleCurrentChange = (val) => {
 const addEmp = () => {
   dialogVisible.value = true
   dialogTitle.value = '新增员工'
+  //清空表单内容及校验提示信息
+  employee.value = {
+    username: '',
+    name: '',
+    gender: '',
+    phone: '',
+    job: '',
+    salary: '',
+    deptId: '',
+    entryDate: '',
+    image: '',
+    exprList: []
+  }
+  if (employeeFormRef.value) {
+    employeeFormRef.value.resetFields()
+  }
 }
+
+//表单校验规则
+// 验证规则
+const rules = ref({
+  username: [
+    {required: true, message: '请输入用户名', trigger: 'blur'},
+    {min: 2, max: 20, message: '用户名长度应在2到20个字符之间', trigger: 'blur'}
+  ],
+  name: [
+    {required: true, message: '请输入姓名', trigger: 'blur'},
+    {min: 2, max: 10, message: '姓名长度应在2到10个字符之间', trigger: 'blur'}
+  ],
+  gender: [
+    {required: true, message: '请选择性别', trigger: 'change'}
+  ],
+  phone: [
+    {required: true, message: '请输入手机号', trigger: 'blur'},
+    {pattern: /^1\d{10}$/g, message: '请输入有效的手机号', trigger: 'blur'}
+  ]
+})
 
 //新增/修改表单
 const employeeFormRef = ref(null)
@@ -164,6 +200,21 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
     })
   }
 }, {deep: true})
+//保存员工信息
+const save = async () => {
+  employeeFormRef.value.validate(async valid => {
+    if (valid) {
+      const result = await addApi(employee.value)
+      if (result.code) {
+        ElMessage.success('新增员工成功')
+        dialogVisible.value = false
+        search()
+      } else {
+        ElMessage.error(result.msg)
+      }
+    }
+  })
+}
 </script>
 
 <template>
@@ -246,17 +297,17 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
     />
     <!-- 新增/修改员工的对话框 -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle">
-      <el-form ref="employeeFormRef" :model="employee" label-width="80px">
+      <el-form ref="employeeFormRef" :model="employee" label-width="80px" :rules="rules">
         <!-- 基本信息 -->
         <!-- 第一行-->
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="用户名">
+            <el-form-item label="用户名" prop="username">
               <el-input v-model="employee.username" placeholder="请输入员工用户名，2-20个字"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="姓名">
+            <el-form-item label="姓名" prop="name">
               <el-input v-model="employee.name" placeholder="请输入员工姓名，2-10个字"></el-input>
             </el-form-item>
           </el-col>
@@ -264,7 +315,7 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
         <!-- 第二行-->
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="性别">
+            <el-form-item label="性别" prop="gender">
               <el-select v-model="employee.gender" placeholder="请选择性别" style="width: 100%;">
                 <el-option v-for="gender in genders" :key="gender.name" :label="gender.name"
                            :value="gender.value"></el-option>
@@ -272,7 +323,7 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="手机">
+            <el-form-item label="手机" prop="phone">
               <el-input v-model="employee.phone" placeholder="请输入手机号码"></el-input>
             </el-form-item>
           </el-col>
@@ -282,7 +333,7 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
           <el-col :span="12">
             <el-form-item label="职位">
               <el-select v-model="employee.job" placeholder="请选择职位" style="width: 100%;">
-                <el-option v-for="job in jobs" :key="job.name" :label="job.name" value="job.value"></el-option>
+                <el-option v-for="job in jobs" :key="job.name" :label="job.name" :value="job.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -368,7 +419,7 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="">保存</el-button>
+          <el-button type="primary" @click="save">保存</el-button>
         </span>
       </template>
     </el-dialog>
