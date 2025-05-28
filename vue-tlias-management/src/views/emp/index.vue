@@ -145,6 +145,25 @@ const beforeAvatarUpload = (rawFile) => {
   }
   return true
 }
+
+//工作经历
+//动态添加工作经历
+const addExprItem = () => {
+  employee.value.exprList.push({exprDate: [], begin: '', end: '', company: '', job: ''})
+}
+//动态删除工作经历
+const delExprItem = (index) => {
+  employee.value.exprList.splice(index, 1)
+}
+//监听-employee员工对象中的工作经历数据
+watch(() => employee.value.exprList, (newValue, oldValue) => {
+  if (employee.value.exprList && employee.value.exprList.length > 0) {
+    employee.value.exprList.forEach(expr => {
+      expr.begin = expr.exprDate[0]
+      expr.end = expr.exprDate[1]
+    })
+  }
+}, {deep: true})
 </script>
 
 <template>
@@ -278,7 +297,7 @@ const beforeAvatarUpload = (rawFile) => {
           <el-col :span="12">
             <el-form-item label="所属部门">
               <el-select v-model="employee.deptId" placeholder="请选择部门" style="width: 100%;">
-                <el-option v-for="dept in deptList" :key="dept.id"  :label="dept.name" :value="dept.id"></el-option>
+                <el-option v-for="dept in deptList" :key="dept.id" :label="dept.name" :value="dept.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -313,34 +332,34 @@ const beforeAvatarUpload = (rawFile) => {
         <el-row :gutter="10">
           <el-col :span="24">
             <el-form-item label="工作经历">
-              <el-button type="success" size="small" @click="">+ 添加工作经历</el-button>
+              <el-button type="success" size="small" @click="addExprItem">+ 添加工作经历</el-button>
             </el-form-item>
           </el-col>
         </el-row>
         <!-- 第七行 ...  工作经历 -->
-        <el-row :gutter="3">
+        <el-row :gutter="3" v-for="(expr,index) in employee.exprList">
           <el-col :span="10">
             <el-form-item size="small" label="时间" label-width="80px">
-              <el-date-picker type="daterange" range-separator="至" start-placeholder="开始日期"
+              <el-date-picker type="daterange" v-model="expr.exprDate" range-separator="至" start-placeholder="开始日期"
                               end-placeholder="结束日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :span="6">
             <el-form-item size="small" label="公司" label-width="60px">
-              <el-input placeholder="请输入公司名称"></el-input>
+              <el-input placeholder="请输入公司名称" v-model="expr.company"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="6">
             <el-form-item size="small" label="职位" label-width="60px">
-              <el-input placeholder="请输入职位"></el-input>
+              <el-input placeholder="请输入职位" v-model="expr.job"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="2">
             <el-form-item size="small" label-width="0px">
-              <el-button type="danger">- 删除</el-button>
+              <el-button type="danger" @click="delExprItem(index)">- 删除</el-button>
             </el-form-item>
           </el-col>
         </el-row>
