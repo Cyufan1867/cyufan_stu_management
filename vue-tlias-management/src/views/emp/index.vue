@@ -1,4 +1,6 @@
 <script setup>
+//声明token
+const token = ref('')
 import {ref, watch, onMounted} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {addApi, queryPageApi, queryInfoApi, updateApi, deleteApi} from '@/api/emp'
@@ -69,8 +71,16 @@ onMounted(async () => {
   if (result.code) {
     deptList.value = result.data
   }
+  getToken()
 })
 
+//获取token
+const getToken = () => {
+  const loginUser = JSON.parse(localStorage.getItem('loginUser'))
+  if (loginUser && loginUser.token) {
+    token.value = loginUser.token
+  }
+}
 
 // 示例数据
 const empList = ref([
