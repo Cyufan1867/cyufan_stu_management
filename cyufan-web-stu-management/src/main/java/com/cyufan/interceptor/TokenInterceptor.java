@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
-//@Component
+@Component
 public class TokenInterceptor implements HandlerInterceptor {
 
     @Override

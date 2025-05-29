@@ -1,5 +1,15 @@
 <script setup>
 // 无需额外导入，因为我们只是使用了 Element Plus 和 Vue Router 的基本功能
+import {ref, onMounted} from "vue"
+
+const loginName = ref('')
+//定义钩子函数, 获取登录用户名
+onMounted(() => {
+  let loginUser = JSON.parse(localStorage.getItem('loginUser'))
+  if (loginUser) {
+    loginName.value = loginUser.name
+  }
+})
 </script>
 
 <template>
@@ -10,10 +20,10 @@
         <span class="title">Tlias智能学习辅助系统</span>
         <span class="right_tool">
           <a href="">
-            <el-icon><EditPen /></el-icon> 修改密码 &nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;
+            <el-icon><EditPen/></el-icon> 修改密码 &nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;
           </a>
           <a href="">
-            <el-icon><SwitchButton /></el-icon> 退出登录
+            <el-icon><SwitchButton/></el-icon> 退出登录 {{ loginName }}
           </a>
         </span>
       </el-header>
@@ -25,48 +35,81 @@
           <el-menu router>
             <!-- 首页菜单 -->
             <el-menu-item index="/index">
-              <el-icon><Promotion /></el-icon> 首页
+              <el-icon>
+                <Promotion/>
+              </el-icon>
+              首页
             </el-menu-item>
 
             <!-- 班级管理菜单 -->
             <el-sub-menu index="/manage">
               <template #title>
-                <el-icon><Menu /></el-icon> 班级学员管理
+                <el-icon>
+                  <Menu/>
+                </el-icon>
+                班级学员管理
               </template>
               <el-menu-item index="/clazz">
-                <el-icon><HomeFilled /></el-icon>班级管理
+                <el-icon>
+                  <HomeFilled/>
+                </el-icon>
+                班级管理
               </el-menu-item>
               <el-menu-item index="/stu">
-                <el-icon><UserFilled /></el-icon>学员管理
+                <el-icon>
+                  <UserFilled/>
+                </el-icon>
+                学员管理
               </el-menu-item>
             </el-sub-menu>
 
             <!-- 系统信息管理 -->
             <el-sub-menu index="/system">
               <template #title>
-                <el-icon><Tools /></el-icon>系统信息管理
+                <el-icon>
+                  <Tools/>
+                </el-icon>
+                系统信息管理
               </template>
               <el-menu-item index="/dept">
-                <el-icon><HelpFilled /></el-icon>部门管理
+                <el-icon>
+                  <HelpFilled/>
+                </el-icon>
+                部门管理
               </el-menu-item>
               <el-menu-item index="/emp">
-                <el-icon><Avatar /></el-icon>员工管理
+                <el-icon>
+                  <Avatar/>
+                </el-icon>
+                员工管理
               </el-menu-item>
             </el-sub-menu>
 
             <!-- 数据统计管理 -->
             <el-sub-menu index="/report">
               <template #title>
-                <el-icon><Histogram /></el-icon>数据统计管理
+                <el-icon>
+                  <Histogram/>
+                </el-icon>
+                数据统计管理
               </template>
               <el-menu-item index="/empReport">
-                <el-icon><InfoFilled /></el-icon>员工信息统计
+                <el-icon>
+                  <InfoFilled/>
+                </el-icon>
+                员工信息统计
               </el-menu-item>
               <el-menu-item index="/stuReport">
-                <el-icon><Share /></el-icon>学员信息统计
+                <el-icon>
+                  <Share/>
+                </el-icon>
+                学员信息统计
               </el-menu-item>
               <el-menu-item index="/log">
-                <el-icon><Document /></el-icon>日志信息统计
+                <el-icon>
+                  <Document/>
+                </el-icon>
+                日志信息统计
               </el-menu-item>
             </el-sub-menu>
           </el-menu>
@@ -94,7 +137,7 @@
   font-weight: bolder;
 }
 
-.right_tool{
+.right_tool {
   float: right;
   line-height: 60px;
 }
