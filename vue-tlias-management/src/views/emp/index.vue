@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch, onMounted} from "vue";
-import {ElMessage} from "element-plus";
-import {addApi, queryPageApi, queryInfoApi, updateApi} from '@/api/emp'
+import {ElMessage, ElMessageBox} from "element-plus";
+import {addApi, queryPageApi, queryInfoApi, updateApi, deleteApi} from '@/api/emp'
 import {Plus} from "@element-plus/icons-vue";
 import {queryAllApi as queryAllDeptApi} from '@/api/dept'
 
@@ -205,9 +205,9 @@ const save = async () => {
   employeeFormRef.value.validate(async valid => {
     if (valid) {
       let result
-      if(employee.value.id){
+      if (employee.value.id) {
         result = await updateApi(employee.value)
-      }else {
+      } else {
         result = await addApi(employee.value)
       }
       if (result.code) {
@@ -235,6 +235,52 @@ const edit = async (id) => {
       })
     }
   }
+}
+//删除员工
+const deleteById = (id) => {
+  //弹出确认框
+  ElMessageBox.confirm('此操作将永久删除该员工, 是否继续?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    const result = await deleteApi(id)
+    if (result.code) {
+      ElMessage.success('删除成功')
+      search()
+    } else {
+      ElMessage.error(result.msg)
+    }
+  }).catch(() => {
+    ElMessage.info('已取消删除')
+  })
+}
+//记录勾选的员工的id
+const selectedIds = ref([])
+const handleSelectionChange = (selection) => {
+  selectedIds.value = selection.map(item => item.id)
+}
+//批量删除
+const deleteByIds = () => {
+  ElMessageBox.confirm('此操作将永久删除选中的员工, 是否继续?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    if (selectedIds.value && selectedIds.value.length > 0) {
+      const result = await deleteApi(selectedIds.value)
+      if (result.code) {
+        ElMessage.success('删除成功')
+        search()
+      } else {
+        ElMessage.error(result.msg)
+      }
+    } else {
+      ElMessage.info('请选择要删除的员工')
+    }
+  }).catch(() => {
+    ElMessage.info('已取消删除')
+  })
 }
 </script>
 
@@ -268,10 +314,10 @@ const edit = async (id) => {
     </el-form>
 
     <el-button type="primary" @click="addEmp"> + 新增员工</el-button>
-    <el-button type="danger" @click=""> - 批量删除</el-button>
+    <el-button type="danger" @click="deleteByIds"> - 批量删除</el-button>
     <br>
     <!-- 表格 -->
-    <el-table :data="empList" border style="width: 100%">
+    <el-table :data="empList" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column prop="name" label="姓名" width="120" align="center"/>
       <el-table-column label="性别" width="120" align="center">
@@ -300,7 +346,7 @@ const edit = async (id) => {
       <el-table-column label="操作" fixed="right" align="center">
         <template #default="scope">
           <el-button size="small" type="primary" @click="edit(scope.row.id)">编辑</el-button>
-          <el-button size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
+          <el-button size="small" type="danger" @click="deleteById(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
