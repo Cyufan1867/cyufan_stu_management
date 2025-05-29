@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch, onMounted} from "vue";
 import {ElMessage} from "element-plus";
-import {addApi, queryPageApi} from '@/api/emp'
+import {addApi, queryPageApi, queryInfoApi} from '@/api/emp'
 import {Plus} from "@element-plus/icons-vue";
 import {queryAllApi as queryAllDeptApi} from '@/api/dept'
 
@@ -215,6 +215,22 @@ const save = async () => {
     }
   })
 }
+//编辑
+const edit = async (id) => {
+  const result = await queryInfoApi(id);
+  if (result.code) {
+    dialogVisible.value = true
+    dialogTitle.value = '修改员工'
+    employee.value = result.data
+    //对工作经历进行处理
+    let exprList = employee.value.exprList
+    if (exprList && exprList.length > 0) {
+      exprList.forEach((expr) => {
+        expr.exprDate = [expr.begin, expr.end]
+      })
+    }
+  }
+}
 </script>
 
 <template>
@@ -278,8 +294,8 @@ const save = async () => {
       <el-table-column prop="updateTime" label="最后操作时间" width="180" align="center"/>
       <el-table-column label="操作" fixed="right" align="center">
         <template #default="scope">
-          <el-button size="small" type="primary" @click="">编辑</el-button>
-          <el-button size="small" type="danger" @click="">删除</el-button>
+          <el-button size="small" type="primary" @click="edit(scope.row.id)">编辑</el-button>
+          <el-button size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
