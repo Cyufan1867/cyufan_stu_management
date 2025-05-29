@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch, onMounted} from "vue";
 import {ElMessage} from "element-plus";
-import {addApi, queryPageApi, queryInfoApi} from '@/api/emp'
+import {addApi, queryPageApi, queryInfoApi, updateApi} from '@/api/emp'
 import {Plus} from "@element-plus/icons-vue";
 import {queryAllApi as queryAllDeptApi} from '@/api/dept'
 
@@ -204,7 +204,12 @@ watch(() => employee.value.exprList, (newValue, oldValue) => {
 const save = async () => {
   employeeFormRef.value.validate(async valid => {
     if (valid) {
-      const result = await addApi(employee.value)
+      let result
+      if(employee.value.id){
+        result = await updateApi(employee.value)
+      }else {
+        result = await addApi(employee.value)
+      }
       if (result.code) {
         ElMessage.success('新增员工成功')
         dialogVisible.value = false
