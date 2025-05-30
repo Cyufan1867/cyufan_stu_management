@@ -1,26 +1,30 @@
 <script setup>
-import {ref} from 'vue'
-import {loginApi} from '@/api/login'
-import {ElMessage} from "element-plus";
-import {useRouter} from 'vue-router'
+import { ref } from 'vue'
+import { loginApi } from '@/api/login'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
-let loginForm = ref({username: '', password: ''})
+let loginForm = ref({username:'', password:''})
 let router = useRouter()
 
 //登录
 const login = async () => {
   const result = await loginApi(loginForm.value)
-  if (result.code) {
+  if (result.code) {// 登录成功
     ElMessage.success('登录成功')
     localStorage.setItem('loginUser', JSON.stringify(result.data))
-    router.push('/')
-  } else {
+    router.push('/')// 跳转
+  }else {
     ElMessage.error(result.msg)
   }
 }
+
 //取消
-const clear = () => {
-  loginForm.value = {username: '', password: ''}
+const cancel = () => {
+  loginForm.value = {
+    username: '',
+    password: ''
+  }
 }
 
 </script>
@@ -40,7 +44,7 @@ const clear = () => {
 
         <el-form-item>
           <el-button class="button" type="primary" @click="login">登 录</el-button>
-          <el-button class="button" type="info" @click="clear">重 置</el-button>
+          <el-button class="button" type="info" @click="cancel">重 置</el-button>
         </el-form-item>
       </el-form>
     </div>

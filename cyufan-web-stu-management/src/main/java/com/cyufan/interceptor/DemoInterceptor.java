@@ -2,11 +2,13 @@ package com.cyufan.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Component
+@Slf4j
+//@Component
 public class DemoInterceptor implements HandlerInterceptor {
 
     //目标资源方法执行前执行。 返回true：放行    返回false：不放行

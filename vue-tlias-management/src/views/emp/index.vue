@@ -76,9 +76,9 @@ onMounted(async () => {
 
 //获取token
 const getToken = () => {
-  const loginUser = JSON.parse(localStorage.getItem('loginUser'))
+  const loginUser = JSON.parse(localStorage.getItem('loginUser'));
   if (loginUser && loginUser.token) {
-    token.value = loginUser.token
+    token.value = loginUser.token;
   }
 }
 
@@ -443,6 +443,7 @@ const deleteByIds = () => {
               <el-upload
                   class="avatar-uploader"
                   action="/api/upload"
+                  :headers="{'token': token}"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload"

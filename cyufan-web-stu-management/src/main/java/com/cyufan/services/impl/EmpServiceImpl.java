@@ -106,12 +106,13 @@ public class EmpServiceImpl implements EmpService {
     public LoginInfo login(Emp emp) {
         Emp empLogin = empMapper.getUsernameAndPassword(emp);
         if(empLogin != null){
+            //1. 生成JWT令牌
             Map<String,Object> dataMap = new HashMap<>();
-            dataMap.put("id",empLogin.getId());
-            dataMap.put("username",empLogin.getUsername());
+            dataMap.put("id", empLogin.getId());
+            dataMap.put("username", empLogin.getUsername());
 
             String jwt = JwtUtils.generateJwt(dataMap);
-            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), null);
+            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), jwt);
             return loginInfo;
         }
         return null;
